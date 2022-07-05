@@ -25,12 +25,14 @@ helm:
         atomic:
           type: boolean
           parameter: atomic
+          export_env: ATOMIC
         force:
           type: boolean
           parameter: force
-        dry-run:
-          type: boolean
-          parameter: dry-run
+          export_env: FORCE
+        stack-action:
+          type: string
+          export_env: HELM_STACK_ACTION
     options:
       type: object
       properties:
@@ -41,10 +43,20 @@ helm:
         release-name:
           type: string
           export_env: HELM_RELEASE_NAME
+        default-root-dir:
+          type: string
+          export_env: DEFAULT_ROOT_DIR
+        default-dir-flag:
+          type: boolean
+          default: true
+          export_env: DEFAULT_DIR_FLAG
+        default-sub-dir:
+          type: string
+          export_env: DEFAULT_SUB_DIR
         uninstall:
           type: string
           export_env: HELM_UNINSTALL
-        kubeconfig:
+        aws:
           type: object
           properties:
             path:
@@ -53,7 +65,7 @@ helm:
             fetch:
               type: object
               properties:
-                enabled: 
+                kubeconfig: 
                   type: boolean
                   default: true
                   export_env: FETCH_KUBECONFIG
