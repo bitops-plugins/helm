@@ -25,9 +25,7 @@ export BITOPS_UTIL_SCRIPT="$BITOPS_SCRIPTS_DIR/plugins.py"
 RESULT=`python3 $BITOPS_UTIL_SCRIPT "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_SCHEMA_FILE_PATH`
 echo $RESULT
 echo "=================================="
-printenv
-echo "=================================="
-printenv|grep -o "^.*="|tr -d '='
+printenv '%s\n' 'aa\nbb' | awk  '{gsub("\\\\n","\n")};1'
 
 #helm cli vars
 # export NAMESPACE="$BITOPS_NAMESPACE"
