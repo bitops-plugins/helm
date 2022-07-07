@@ -28,7 +28,11 @@ echo "=================================="
 env | sed 's;=.*;;' | sort
 echo "=================================="
 printenv | sed 's;=.*;;' | sort
+echo "=================================="
 
+awk 'BEGIN{for(v in ENVIRON) print v}'
+echo "=================================="
+env -0 | cut -z -f1 -d= | tr '\0' '\n' | sort | column
 #helm cli vars
 # export NAMESPACE="$BITOPS_NAMESPACE"
 # export TIMEOUT="$BITOPS_TIMEOUT"
