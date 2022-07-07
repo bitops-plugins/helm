@@ -25,14 +25,10 @@ export BITOPS_UTIL_SCRIPT="$BITOPS_SCRIPTS_DIR/plugins.py"
 RESULT=`python3 $BITOPS_UTIL_SCRIPT "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_SCHEMA_FILE_PATH`
 echo $RESULT
 echo "=================================="
-env | sed 's;=.*;;' | sort
+printenv
 echo "=================================="
-printenv | sed 's;=.*;;' | sort
-echo "=================================="
+printenv|grep -o "^.*="|tr -d '='
 
-awk 'BEGIN{for(v in ENVIRON) print v}'
-echo "=================================="
-env -0 | cut -z -f1 -d= | tr '\0' '\n' | sort | column
 #helm cli vars
 # export NAMESPACE="$BITOPS_NAMESPACE"
 # export TIMEOUT="$BITOPS_TIMEOUT"
