@@ -44,9 +44,10 @@ else
       echo "Deploy $helm_chart_dir for $ENVIRONMENT"
 
       RESULT=`python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR`
-
+      echo "=============Calling printenv============="
       printenv
-
+      echo "=========================================="
+      
       echo "BITOPS_NAMESPACE ==>" $BITOPS_NAMESPACE
       echo "BITOPS_TIMEOUT==>" $BITOPS_HELM_TIMEOUT
       echo "BITOPS_HELM_SET_FLAG==>" $BITOPS_HELM_SET_FLAG
