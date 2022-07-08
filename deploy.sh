@@ -50,7 +50,7 @@ else
       printenv
 
       echo "BITOPS_NAMESPACE" $BITOPS_NAMESPACE
-      echo "BITOPS_TIMEOUT" $BITOPS_TIMEOUT
+      echo "BITOPS_TIMEOUT" $BITOPS_HELM_TIMEOUT
       echo "BITOPS_HELM_SET_FLAG" $BITOPS_HELM_SET_FLAG
       # $HELM_ROOT_SCRIPTS/scripts/helm_handle_chart.sh $helm_chart_dir
     done
