@@ -1,31 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-# export BITOPS_FAST_FAIL="true"
-# export BITOPS_MODE="default"
-# export BITOPS_LOGGING_LEVEL="DEBUG"
-# export BITOPS_logging_color="False"
-# export BITOPS_logging_path="/Users/srayaprolu/Documents/Shyam-Work/CloudApplications-Development/BiTOVi/local-testing/bitopsv2-operations-repos/logs"
-# export BITOPS_DEFAULT_FOLDER_NAME="_default"
-# export BITOPS_TIMEOUT="600"
-# export BITOPS_DIR="/Users/srayaprolu/Documents/Shyam-Work/CloudApplications-Development/BiTOVi/Github/bitops"
-# export BITOPS_PLUGIN_DIR="/Users/srayaprolu/Documents/Shyam-Work/CloudApplications-Development/BiTOVi/Github/bitops-plugins/helm"
-# export BITOPS_SCRIPTS_DIR="/Users/srayaprolu/Documents/Shyam-Work/CloudApplications-Development/BiTOVi/Github/bitops/scripts"
-# export BITOPS_OPSREPO_ENVIRONMENT_DIR="/Users/srayaprolu/Documents/Shyam-Work/CloudApplications-Development/BiTOVi/local-testing/bitopsv2-operations-repos/opsrepo-deployments-poc/helm"
-export BITOPS_SCHEMA_FILE_PATH="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
-export BITOPS_BUILD_CONFIG_YAML="$BITOPS_DIR/bitops.config.yaml"
+export BITOPS_PLUGIN_SCHEMA_DIR="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
 export BITOPS_OPSREPO_CONFIG_FILE_PATH="$BITOPS_OPSREPO_ENVIRONMENT_DIR/nginx-ingress/bitops.config.yaml"
-export BITOPS_UTIL_SCRIPT="$BITOPS_SCRIPTS_DIR/plugins.py"
 
-# /utilities.py
+python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR
 
-# chmod +x $BITOPS_UTIL_SCRIPT
 
-# RESULT=`python3 -c 'import $BITOPS_PARSE_SCRIPT; print(main.returnHelloWorld())'`
-RESULT=`python3 $BITOPS_UTIL_SCRIPT "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_SCHEMA_FILE_PATH`
-echo $RESULT
-echo "=================================="
-printenv | tr -d "\n"
 
 #helm cli vars
 # export NAMESPACE="$BITOPS_NAMESPACE"
