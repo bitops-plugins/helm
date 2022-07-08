@@ -4,9 +4,9 @@ set -e
 export BITOPS_PLUGIN_SCHEMA_DIR="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
 export BITOPS_OPSREPO_CONFIG_FILE_PATH="$BITOPS_OPSREPO_ENVIRONMENT_DIR/nginx-ingress/bitops.config.yaml"
 
-python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR
+RESULT=`python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR`
 
-echo $BITOPS_HELM_RELEASE_NAME
+echo $RESULT
 
 
 #helm cli vars
