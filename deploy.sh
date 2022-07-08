@@ -43,7 +43,7 @@ else
       echo "Deploy $helm_chart_dir for $ENVIRONMENT"
       export BITOPS_SCHEMA_ENV_FILE="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir/ENV_FILE"
       export BITOPS_CONFIG_SCHEMA="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
-      export SCRIPTS_DIR="$BITOPS_PLUGIN_DIR"
+      export SCRIPTS_DIR="$BITOPS_PLUGIN_DIR/scripts"
       export HELM_BITOPS_CONFIG="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir/bitops.config.yaml"
       export HELM_CHART_DIRECTORY="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir"
       # export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$HELM_CHART"
