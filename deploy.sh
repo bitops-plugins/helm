@@ -22,8 +22,7 @@ export HELM_ROOT_OPERATIONS="$BITOPS_OPSREPO_ENVIRONMENT_DIR"
 export ENVIRONMENT="$BITOPS_ENVIRONMENT"
 export ENV_DIR="$BITOPS_ENVROOT"
 export ENVIRONMENT_HELM_SUBDIRECTORY="$BITOPS_ENVIRONMENT_HELM_SUBDIRECTORY"
-export BITOPS_PLUGIN_SCHEMA_DIR="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
-export BITOPS_OPSREPO_CONFIG_FILE_PATH="$BITOPS_OPSREPO_ENVIRONMENT_DIR/nginx-ingress/bitops.config.yaml"
+
 
 export HELM_RELEASE_NAME=""
 export HELM_DEBUG_COMMAND=""
@@ -42,16 +41,17 @@ else
       helm_chart_dir=${helm_chart_dir%*/}     # remove the trailing "/"
       helm_chart_dir=${helm_chart_dir##*/}    # get everything after the final "/"
       echo "Deploy $helm_chart_dir for $ENVIRONMENT"
+      export BITOPS_SCHEMA_ENV_FILE="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir/ENV_FILE"
+      export BITOPS_PLUGIN_SCHEMA_DIR="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
+      export HELM_CONFIG_SCRIPTS_DIR="$BITOPS_PLUGIN_DIR/config"
+      export BITOPS_OPSREPO_CONFIG_FILE_PATH="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir/bitops.config.yaml"
+      export BITOPS_CONFIG_COMMAND="$(ENV_FILE="$BITOPS_SCHEMA_ENV_FILE" DEBUG="" bash $HELM_CONFIG_SCRIPTS_DIR/convert-schema.sh $BITOPS_PLUGIN_SCHEMA_DIR $BITOPS_OPSREPO_CONFIG_FILE_PATH)"
+      echo "BITOPS_CONFIG_COMMAND: $BITOPS_CONFIG_COMMAND"
+      source "$BITOPS_SCHEMA_ENV_FILE"
 
-      python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR
-
-      echo "=============Calling printenv============="
+      # Check for Before Deploy Scripts
+      # bash $SCRIPTS_DIR/deploy/before-deploy.sh "$HELM_CHART_DIRECTORY"
       printenv
-      echo "=========================================="
-
-      echo "BITOPS_NAMESPACE ==>" $BITOPS_NAMESPACE
-      echo "BITOPS_TIMEOUT==>" $BITOPS_HELM_TIMEOUT
-      echo "BITOPS_HELM_SET_FLAG==>" $BITOPS_HELM_SET_FLAG
       # $HELM_ROOT_SCRIPTS/scripts/helm_handle_chart.sh $helm_chart_dir
     done
   else
