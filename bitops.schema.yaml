@@ -12,7 +12,7 @@ helm:
         timeout:
           type: string
           parameter: timeout
-          export_env: TIMEOUT
+          export_env: HELM_TIMEOUT
           default: "500s"
         set:
           type: list
@@ -25,14 +25,15 @@ helm:
         atomic:
           type: boolean
           parameter: atomic
-          export_env: ATOMIC
+          export_env: HELM_ATOMIC
         force:
           type: boolean
           parameter: force
-          export_env: FORCE
-        stack-action:
-          type: string
-          export_env: HELM_STACK_ACTION
+          export_env: HELM_FORCE
+        dry-run:
+          type: boolean
+          parameter: dry-run
+          export_env: HELM_DRY_RUN
     options:
       type: object
       properties:
