@@ -8,6 +8,8 @@ RESULT=`python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_
 
 echo $RESULT
 
+printenv
+
 
 #helm cli vars
 # export NAMESPACE="$BITOPS_NAMESPACE"
