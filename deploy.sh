@@ -43,15 +43,15 @@ else
       helm_chart_dir=${helm_chart_dir##*/}    # get everything after the final "/"
       echo "Deploy $helm_chart_dir for $ENVIRONMENT"
 
-      RESULT=`python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR`
+      # RESULT=`python3 $BITOPS_SCRIPTS_DIR/plugins.py "schema_parsing" $BITOPS_OPSREPO_CONFIG_FILE_PATH $BITOPS_PLUGIN_SCHEMA_DIR`
 
-      echo $RESULT
+      # echo $RESULT
 
       printenv
 
-      echo "BITOPS_NAMESPACE" $BITOPS_NAMESPACE
-      echo "BITOPS_TIMEOUT" $BITOPS_HELM_TIMEOUT
-      echo "BITOPS_HELM_SET_FLAG" $BITOPS_HELM_SET_FLAG
+      echo "BITOPS_NAMESPACE ==>" $BITOPS_NAMESPACE
+      echo "BITOPS_TIMEOUT==>" $BITOPS_HELM_TIMEOUT
+      echo "BITOPS_HELM_SET_FLAG==>" $BITOPS_HELM_SET_FLAG
       # $HELM_ROOT_SCRIPTS/scripts/helm_handle_chart.sh $helm_chart_dir
     done
   else
