@@ -1,2 +1,2 @@
-# bitops-terraform-plugin
-Bitops Terraform Plugin
+# helm-plugin
+Bitops Helm Plugin
