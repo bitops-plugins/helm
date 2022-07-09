@@ -81,39 +81,41 @@ if [ -n "$HELM_RELEASE_NAME" ]; then
 fi
 bash $SCRIPTS_DIR/validate_env.sh
 
-printenv
 
 # # Identify the default folder for helm
-# if [[ "${FETCH_KUBECONFIG}" == "True" ]]; then
+if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
+    echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
+    export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$BITOPS_DEFAULT_ROOT_DIR"
+    export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
+else
+    echo "Use 'default-root-dir' of bitops.config.yaml helm chart config value for default root directory..."
+    export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$DEFAULT_ROOT_DIR"
+    export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
+fi
+
 
 ### COPY DEFAULTS
-# export DEFAULT_DIR_FLAG="$BITOPS_DEFAULT_DIR_FLAG"
-# export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$HELM_CHART"
-# export BITOPS_DEFAULT_SUB_DIR="$BITOPS_ENVROOT/$DEFAULT_SUB_DIR"
-# export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$BITOPS_DEFAULT_ROOT_DIR"
-
-
-# HELM_CHART_DIRECTORY="$HELM_CHART_DIRECTORY" \
-# DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_CHART_DIRECTORY" \
-# HELM_BITOPS_CONFIG="$HELM_BITOPS_CONFIG" \
-# bash -x $SCRIPTS_DIR/copy-defaults.sh "$HELM_CHART"
+HELM_CHART_DIRECTORY="$HELM_CHART_DIRECTORY" \
+DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_CHART_DIRECTORY" \
+HELM_BITOPS_CONFIG="$HELM_BITOPS_CONFIG" \
+bash -x $SCRIPTS_DIR/copy-defaults.sh "$HELM_CHART"
 
 # Check if chart is flagged for removal
-# CHART_IN_UNINSTALL_LIST=false
-# IFS=',' read -ra CHART_ARRAY <<< "$HELM_UNINSTALL_CHARTS"
-# for CHART in "${CHART_ARRAY[@]}"; do
-#     if [ "$HELM_RELEASE_NAME" = "$CHART" ]; then CHART_IN_UNINSTALL_LIST=true; break; fi
-# done
+CHART_IN_UNINSTALL_LIST=false
+IFS=',' read -ra CHART_ARRAY <<< "$HELM_UNINSTALL_CHARTS"
+for CHART in "${CHART_ARRAY[@]}"; do
+    if [ "$HELM_RELEASE_NAME" = "$CHART" ]; then CHART_IN_UNINSTALL_LIST=true; break; fi
+done
 
-# if [ "$HELM_UNINSTALL" = true ] || [ "$CHART_IN_UNINSTALL_LIST" = true ]; then
-#     # Uninstall Chart
-#     bash $SCRIPTS_DIR/helm/helm_uninstall_chart.sh
-# else
-#     # Deploy Chart.
-#     echo "Updating dependencies in '$HELM_CHART_DIRECTORY' ..."
-#     helm dep up "$HELM_CHART_DIRECTORY"
-#     bash $SCRIPTS_DIR/helm/helm_deploy_chart.sh
-# fi
+if [ "$HELM_UNINSTALL" = true ] || [ "$CHART_IN_UNINSTALL_LIST" = true ]; then
+    # Uninstall Chart
+    bash $SCRIPTS_DIR/helm/helm_uninstall_chart.sh
+else
+    # Deploy Chart.
+    echo "Updating dependencies in '$HELM_CHART_DIRECTORY' ..."
+    helm dep up "$HELM_CHART_DIRECTORY"
+    bash $SCRIPTS_DIR/helm_deploy_chart.sh
+fi
 
 # Run After Deploy Scripts if any.
 # bash $SCRIPTS_DIR/deploy/after-deploy.sh $HELM_CHART_DIRECTORY

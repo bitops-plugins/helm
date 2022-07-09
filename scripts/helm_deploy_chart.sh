@@ -71,7 +71,7 @@ k="$k" \
 NAMESPACE="$NAMESPACE" \
 HELM_CHART="$HELM_CHART" \
 HELM_CHART_DIRECTORY="$HELM_CHART_DIRECTORY" \
-bash -x $SCRIPTS_DIR/helm/ensure-namespace-exists.sh
+bash -x $SCRIPTS_DIR/ensure-namespace-exists.sh
 
 # TODO: helm lint
 RESULT=""
