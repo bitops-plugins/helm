@@ -80,9 +80,10 @@ if [ -n "$HELM_RELEASE_NAME" ]; then
     export HELM_RELEASE_NAME="$HELM_CHART"
 fi
 bash $SCRIPTS_DIR/validate_env.sh
-
+echo "validate_env for NAMESPACE: $NAMESPACE completed successfully"
 
 # # Identify the default folder for helm
+echo "Identify the default root folder for $HELM_CHART helm chart"
 if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
     echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
     export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$BITOPS_DEFAULT_ROOT_DIR"
@@ -92,13 +93,15 @@ else
     export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$DEFAULT_ROOT_DIR"
     export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
 fi
-
+echo "default root folder for $HELM_CHART helm chart found.."
 
 ### COPY DEFAULTS
+echo "Copying defaults...."
 HELM_CHART_DIRECTORY="$HELM_CHART_DIRECTORY" \
 DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_CHART_DIRECTORY" \
 HELM_BITOPS_CONFIG="$HELM_BITOPS_CONFIG" \
 bash -x $SCRIPTS_DIR/copy-defaults.sh "$HELM_CHART"
+echo "Copy defaults completed...."
 
 # Check if chart is flagged for removal
 CHART_IN_UNINSTALL_LIST=false
