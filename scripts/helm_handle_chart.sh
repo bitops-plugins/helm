@@ -22,12 +22,12 @@ fi
 ls -ltr $PLUGINS_ROOT_DIR
 
 # Check for dependent aws plugin
-if [ ! -f $PLUGINS_ROOT_DIR/aws ]; then
+if [ ! -d $PLUGINS_ROOT_DIR/aws ]; then
     echo "aws plugin is missing..."
     exit 1
 else
     # Check for dependent kubectl plugin
-    if [ ! -f $PLUGINS_ROOT_DIR/kubectl ]; then
+    if [ ! -d $PLUGINS_ROOT_DIR/kubectl ]; then
     echo "kubectl plugin is missing..."
     exit 1
     else
