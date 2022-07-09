@@ -11,7 +11,7 @@ echo ""
 
 mkdir -p /opt/download
 cd /opt/download
-HELM_VERSION=='3.9.0'
+HELM_VERSION=3.9.0
 
 function install_helm() {
     if [[ "$HELM_VERSION" == '3.2.0' ]]; then
