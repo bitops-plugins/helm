@@ -1,64 +1,33 @@
 #!/usr/bin/env bash
 set -e
 
-# helm cli vars
-export NAMESPACE="$BITOPS_NAMESPACE"
-export TIMEOUT="$BITOPS_HELM_TIMEOUT"
-export HELM_SET_FLAG="$BITOPS_HELM_SET_FLAG"
-export HELM_DEBUG="$BITOPS_HELM_DEBUG"
-export ATOMIC="$BITOPS_HELM_ATOMIC"
-export FORCE="$BITOPS_HELM_FORCE"
-export DRY_RUN="$BITOPS_HELM_DRY_RUN"
-
-# helm option vars
-export HELM_SKIP_DEPLOY="$BITOPS_HELM_SKIP_DEPLOY"
-export HELM_RELEASE_NAME="$BITOPS_HELM_RELEASE_NAME"
-export DEFAULT_SUB_DIR="$BITOPS_ENVROOT/$BITOPS_DEFAULT_ROOT_DIR/helm/$BITOPS_DEFAULT_SUB_DIR"
-# export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$BITOPS_DEFAULT_ROOT_DIR"
-export DEFAULT_DIR_FLAG="$BITOPS_DEFAULT_DIR_FLAG"
 export PLUGINS_ROOT_DIR="$BITOPS_PLUGINS_DIR"
 export HELM_ROOT_SCRIPTS="$BITOPS_PLUGIN_DIR"
 export HELM_ROOT_OPERATIONS="$BITOPS_OPSREPO_ENVIRONMENT_DIR"
 export ENVIRONMENT="$BITOPS_ENVIRONMENT"
 export ENV_DIR="$BITOPS_ENVROOT"
 export ENVIRONMENT_HELM_SUBDIRECTORY="$BITOPS_ENVIRONMENT_HELM_SUBDIRECTORY"
-
+export BITOPS_CONFIG_SCHEMA="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
+export SCRIPTS_DIR="$BITOPS_PLUGIN_DIR/scripts"
 
 export HELM_RELEASE_NAME=""
 export HELM_DEBUG_COMMAND=""
 export HELM_DEPLOY=${HELM_CHARTS:=false}
 
 
-if [ -n "$HELM_SKIP_DEPLOY" ]; then
-  echo "HELM_SKIP_DEPLOY set...Skipping deployment for $ENVIRONMENT/helm/$HELM_CHART"
-  exit 0
+echo "calling helm/deploy ..."
+# if subdirectory is not provided, iterate subdirectories
+if [ -z "$ENVIRONMENT_HELM_SUBDIRECTORY" ]; then
+  echo "ENVIRONMENT_HELM_SUBDIRECTORY not provided, iterate all helm charts in $ENV_DIR/helm"
+  for helm_chart_dir in $HELM_ROOT_OPERATIONS/*/; do
+    helm_chart_dir=${helm_chart_dir%*/}     # remove the trailing "/"
+    helm_chart_dir=${helm_chart_dir##*/}    # get everything after the final "/"
+    echo "Deploy $helm_chart_dir for $ENVIRONMENT"
+    
+    $HELM_ROOT_SCRIPTS/scripts/helm_handle_chart.sh $helm_chart_dir
+
+  done
 else
-  echo "calling helm/deploy ..."
-  # if subdirectory is not provided, iterate subdirectories
-  if [ -z "$ENVIRONMENT_HELM_SUBDIRECTORY" ]; then
-    echo "ENVIRONMENT_HELM_SUBDIRECTORY not provided, iterate all helm charts in $ENV_DIR/helm"
-    for helm_chart_dir in $HELM_ROOT_OPERATIONS/*/; do
-      helm_chart_dir=${helm_chart_dir%*/}     # remove the trailing "/"
-      helm_chart_dir=${helm_chart_dir##*/}    # get everything after the final "/"
-      echo "Deploy $helm_chart_dir for $ENVIRONMENT"
-      export BITOPS_SCHEMA_ENV_FILE="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir/ENV_FILE"
-      export BITOPS_CONFIG_SCHEMA="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
-      export SCRIPTS_DIR="$BITOPS_PLUGIN_DIR/scripts"
-      export HELM_BITOPS_CONFIG="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir/bitops.config.yaml"
-      export HELM_CHART_DIRECTORY="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$helm_chart_dir"
-      # export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$HELM_CHART"
-      export BITOPS_CONFIG_COMMAND="$(ENV_FILE="$BITOPS_SCHEMA_ENV_FILE" DEBUG="" bash $SCRIPTS_DIR/bitops-config/convert-schema.sh $BITOPS_CONFIG_SCHEMA $HELM_BITOPS_CONFIG)"
-      echo "BITOPS_CONFIG_COMMAND: $BITOPS_CONFIG_COMMAND"
-      source "$BITOPS_SCHEMA_ENV_FILE"
-
-      # Check for Before Deploy Scripts
-      # bash $SCRIPTS_DIR/deploy/before-deploy.sh "$HELM_CHART_DIRECTORY"
-      printenv
-      # $HELM_ROOT_SCRIPTS/scripts/helm_handle_chart.sh $helm_chart_dir
-    done
-  else
-    echo "ENVIRONMENT_HELM_SUBDIRECTORY: $ENV_DIR/helm/$ENVIRONMENT_HELM_SUBDIRECTORY"
-    # $PLUGINS_DIR/helm/scripts/helm_handle_chart.sh $ENVIRONMENT_HELM_SUBDIRECTORY
-  fi
+  echo "ENVIRONMENT_HELM_SUBDIRECTORY: $ENV_DIR/helm/$ENVIRONMENT_HELM_SUBDIRECTORY"
+  $PLUGINS_DIR/helm/scripts/helm_handle_chart.sh $ENVIRONMENT_HELM_SUBDIRECTORY
 fi
-
