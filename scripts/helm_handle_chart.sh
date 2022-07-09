@@ -19,6 +19,8 @@ if [ "$HELM_SKIP_DEPLOY" == "True" ]; then
     exit 0
 fi
 
+ls -ltr $PLUGINS_ROOT_DIR
+
 # Check for dependent aws plugin
 if [ ! -f $PLUGINS_ROOT_DIR/aws ]; then
     echo "aws plugin is missing..."
