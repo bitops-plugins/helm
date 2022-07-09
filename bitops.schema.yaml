@@ -21,19 +21,16 @@ helm:
         debug:
           type: boolean
           parameter: debug
-          export_env: DEBUG
+          export_env: HELM_DEBUG
         atomic:
           type: boolean
           parameter: atomic
-          export_env: ATOMIC
         force:
           type: boolean
           parameter: force
-          export_env: FORCE
         dry-run:
           type: boolean
           parameter: dry-run
-          export_env: DRY-RUN
     options:
       type: object
       properties:
