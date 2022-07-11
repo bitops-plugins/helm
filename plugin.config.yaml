@@ -2,6 +2,8 @@ plugin:
   install: 
     language: bash
     install_script: install.sh
+    dependencies:
+      - kubectl
 
   deployment:
     language: bash
