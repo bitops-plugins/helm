@@ -7,4 +7,5 @@ plugin:
     language: bash
     deployment_script: deploy.sh
     core_schema_parsing: false
-    life_cycle_scripts: false
+    before_hook_scripts: false
+    after_hook_scripts: false
