@@ -35,8 +35,8 @@ else
     fi
 fi
 
-# # Check for Before Deploy Scripts
-# bash $SCRIPTS_DIR/deploy/before-deploy.sh "$HELM_CHART_DIRECTORY"
+# Check for Before Deploy Scripts
+bash $SCRIPTS_DIR/before-deploy.sh "$HELM_CHART_DIRECTORY"
 
 # set kube config
 if [["${KUBECONFIG_BASE64}" == "" ]]|| [[ "${KUBECONFIG_BASE64}" == "''" ]] || [[ "${KUBECONFIG_BASE64}" == "None" ]]; then
@@ -125,7 +125,7 @@ else
 fi
 
 # Run After Deploy Scripts if any.
-# bash $SCRIPTS_DIR/deploy/after-deploy.sh $HELM_CHART_DIRECTORY
+bash $SCRIPTS_DIR/after-deploy.sh $HELM_CHART_DIRECTORY
 
 printf "${SUCCESS}Helm operation was successful...${NC}\n"
 
