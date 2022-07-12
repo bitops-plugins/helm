@@ -39,39 +39,43 @@ fi
 # bash $SCRIPTS_DIR/deploy/before-deploy.sh "$HELM_CHART_DIRECTORY"
 
 # set kube config
-if [[ "${KUBE_CONFIG_PATH}" == "" ]] || [[ "${KUBE_CONFIG_PATH}" == "''" ]] || [[ "${KUBE_CONFIG_PATH}" == "None" ]]; then
-    if [[ "${FETCH_KUBECONFIG}" == "True" ]]; then
-        if [[ "${CLUSTER_NAME}" == "" ]] || [[ "${CLUSTER_NAME}" == "''" ]] || [[ "${CLUSTER_NAME}" == "None" ]]; then
-            >&2 echo "{\"error\":\"CLUSTER_NAME config is required.Exiting...\"}"
-            exit 1
+if [["${KUBECONFIG_BASE64}" == "" ]]|| [[ "${KUBECONFIG_BASE64}" == "''" ]] || [[ "${KUBECONFIG_BASE64}" == "None" ]]; then
+    if [[ "${KUBE_CONFIG_PATH}" == "" ]] || [[ "${KUBE_CONFIG_PATH}" == "''" ]] || [[ "${KUBE_CONFIG_PATH}" == "None" ]]; then
+        if [[ "${FETCH_KUBECONFIG}" == "True" ]]; then
+            if [[ "${CLUSTER_NAME}" == "" ]] || [[ "${CLUSTER_NAME}" == "''" ]] || [[ "${CLUSTER_NAME}" == "None" ]]; then
+                >&2 echo "{\"error\":\"CLUSTER_NAME config is required.Exiting...\"}"
+                exit 1
+            else
+                # always get the kubeconfig (whether or not we applied)
+                echo "Attempting to fetch KUBECONFIG from cloud provider..."
+                CLUSTER_NAME="$CLUSTER_NAME" \
+                KUBECONFIG="$BITOPS_KUBE_CONFIG_FILE" \
+                bash $PLUGINS_ROOT_DIR/aws/eks.update-kubeconfig.sh
+                export KUBECONFIG=$KUBECONFIG:$BITOPS_KUBE_CONFIG_FILE
+                export k="kubectl --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
+                export h="helm --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
+            fi   
         else
-            # always get the kubeconfig (whether or not we applied)
-            echo "Attempting to fetch KUBECONFIG from cloud provider..."
-            CLUSTER_NAME="$CLUSTER_NAME" \
-            KUBECONFIG="$BITOPS_KUBE_CONFIG_FILE" \
-            bash $PLUGINS_ROOT_DIR/aws/eks.update-kubeconfig.sh
-            export KUBECONFIG=$KUBECONFIG:$BITOPS_KUBE_CONFIG_FILE
-            export k="kubectl --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
-            export h="helm --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
-        fi   
+            if [[ "${FETCH_KUBECONFIG}" == "False" ]]; then
+                >&2 echo "{\"error\":\"'kubeconfig' cannot be false when 'cluster-name' variable is defined in bitops.config.yaml.Exiting...\"}"
+                exit 1
+            fi
+        fi
     else
-        if [[ "${FETCH_KUBECONFIG}" == "False" ]]; then
-            >&2 echo "{\"error\":\"'kubeconfig' cannot be false when 'cluster-name' variable is defined in bitops.config.yaml.Exiting...\"}"
+        if [[ -f "$KUBE_CONFIG_PATH" ]]; then
+            echo "$KUBE_CONFIG_PATH exists."
+            KUBE_CONFIG_FILE="$KUBE_CONFIG_PATH"
+            KUBECONFIG="$KUBE_CONFIG_FILE"
+            export KUBECONFIG=$KUBECONFIG:$KUBE_CONFIG_FILE
+            export k="kubectl --kubeconfig=$KUBE_CONFIG_FILE"
+            export h="helm --kubeconfig=$KUBE_CONFIG_FILE"
+        else
+            >&2 echo "{\"error\":\"kubeconfig path set in bitops.config.yaml but not found.Exiting...\"}"
             exit 1
         fi
     fi
 else
-    if [[ -f "$KUBE_CONFIG_PATH" ]]; then
-        echo "$KUBE_CONFIG_PATH exists."
-        KUBE_CONFIG_FILE="$KUBE_CONFIG_PATH"
-        KUBECONFIG="$KUBE_CONFIG_FILE"
-        export KUBECONFIG=$KUBECONFIG:$KUBE_CONFIG_FILE
-        export k="kubectl --kubeconfig=$KUBE_CONFIG_FILE"
-        export h="helm --kubeconfig=$KUBE_CONFIG_FILE"
-    else
-        >&2 echo "{\"error\":\"kubeconfig path set in bitops.config.yaml but not found.Exiting...\"}"
-        exit 1
-    fi
+    echo "{\"info\":\"kubeconfig is already set....\"}"
 fi
 
 
