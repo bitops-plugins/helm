@@ -13,6 +13,8 @@ export BITOPS_CONFIG_COMMAND="$(ENV_FILE="$BITOPS_SCHEMA_ENV_FILE" DEBUG="" bash
 echo "BITOPS_CONFIG_COMMAND: $BITOPS_CONFIG_COMMAND"
 source "$BITOPS_SCHEMA_ENV_FILE"
 
+# remove trailing "/" from $
+
 # Check for helm skip deploy condition
 if [ "$HELM_SKIP_DEPLOY" == "True" ]; then
     echo "helm.options.skip-deploy (HELM_SKIP_DEPLOY) set.  Skipping deployment for $ENVIRONMENT/helm/$HELM_CHART"
@@ -75,7 +77,9 @@ if [["${KUBECONFIG_BASE64}" == "" ]]|| [[ "${KUBECONFIG_BASE64}" == "''" ]] || [
         fi
     fi
 else
-    echo "{\"info\":\"kubeconfig is already set....\"}"
+    echo "Running kubectl plugin"
+    bash $PLUGINS_ROOT_DIR/kubectl/scripts/kubeconfig_base64_decode.sh
+    cat $KUBE_CONFIG_FILE
 fi
 
 
