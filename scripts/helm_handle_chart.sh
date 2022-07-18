@@ -40,7 +40,7 @@ fi
 bash $SCRIPTS_DIR/before-deploy.sh "$HELM_CHART_DIRECTORY"
 
 # set kube config
-if [["${KUBECONFIG_BASE64}" == "" ]]|| [[ "${KUBECONFIG_BASE64}" == "''" ]] || [[ "${KUBECONFIG_BASE64}" == "None" ]]; then
+if [[ -z "$KUBECONFIG_BASE64" ]]; then
     if [[ "${KUBE_CONFIG_PATH}" == "" ]] || [[ "${KUBE_CONFIG_PATH}" == "''" ]] || [[ "${KUBE_CONFIG_PATH}" == "None" ]]; then
         if [[ "${FETCH_KUBECONFIG}" == "True" ]]; then
             if [[ "${CLUSTER_NAME}" == "" ]] || [[ "${CLUSTER_NAME}" == "''" ]] || [[ "${CLUSTER_NAME}" == "None" ]]; then
