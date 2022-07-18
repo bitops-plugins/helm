@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+export KUBECONFIG_BASE64="${BITOPS_KUBECONFIG_BASE64}"
 export HELM_CHART="$1"
 export SCRIPTS_DIR="$BITOPS_PLUGIN_DIR/scripts"
 export BITOPS_CONFIG_SCHEMA="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
