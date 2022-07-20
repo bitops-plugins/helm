@@ -58,7 +58,28 @@ helm:
   plugins:
 ```
 
-## CLI Configuration
+This version of ``helm`` plugin loops over the list of all helm chart folders of the operations repo and install in a sequential manner.
+
+However if a helm chart folder name is passed in ``BITOPS_ENVIRONMENT_HELM_SUBDIRECTORY`` variable in the docker run, this plugin will only install that specific helm chart. Below is the sample docker run showing how to install only one helm chart.
+
+```
+docker run --rm --name bitops \
+-e AWS_ACCESS_KEY_ID="${BITOPS_AWS_ACCESS_KEY_ID}" \
+-e AWS_SECRET_ACCESS_KEY="${BITOPS_AWS_SECRET_ACCESS_KEY}" \
+-e AWS_DEFAULT_REGION="${BITOPS_AWS_DEFAULT_REGION}" \
+-e BITOPS_ENVIRONMENT="${ENVIRONMENT}" \
+-e BITOPS_ENVIRONMENT_HELM_SUBDIRECTORY="ingress-nginx"  \
+-v $(pwd):/opt/bitops_deployment \
+bitops-core:latest
+
+```
+
+## CLI and options configuration of helm ``bitops.schema.yaml``
+
+### Helm BitOps Schema
+
+[bitops.schema.yaml](https://github.com/bitops-plugins/helm/blob/main/bitops.schema.yaml)
+
 
 -------------------
 ### namespace
@@ -146,31 +167,31 @@ If true, this chart will be uninstalled instead of deployed/upgraded. If the env
 
 -------------------
 ### kubeconfig
-* **BitOps Property:** `kubeconfig`
+* **BitOps Property:** `aws`
 
-configure cluster access. Has the following child-properties. Should provide one of `path` or `fetch`. Defaults to `fetch`
+configure cluster access. Has the following child-properties. Should provide one of `aws.kubeconfigpath` or `aws.fetch.kubeconfig & aws.fetch.cluster-name`. Defaults to ``aws.fetch.kubeconfig & aws.fetch.cluster-name``
 
 ### path
-* **BitOps Property:** `kubeconfig.path`
+* **BitOps Property:** `aws.kubeconfigpath`
 * **Environment Variable:** `KUBE_CONFIG_PATH`
 * **default:** `""`
 
 relative file path to .kubeconfig file
 
 #### fetch
-* **BitOps Property:** `kubeconfig.fetch`
+* **BitOps Property:** `aws.fetch`
 
-fetch kubeconfig using cloud provider auth
+aws.fetch kubeconfig using cloud provider auth
 
 ##### enabled
-* **BitOps Property:** `kubeconfig.fetch.enabled`
+* **BitOps Property:** `aws.fetch.kubeconfig`
 * **Environment Variable:** `FETCH_KUBECONFIG`
 * **default:** `true`
 
-enables/disables kubeconfig.fetch
+enables/disables aws.fetch
 
 ##### cluster-name
-* **BitOps Property:** `kubeconfig.fetch.cluster-name`
+* **BitOps Property:** `aws.fetch.cluster-name`
 * **Environment Variable:** `CLUSTER_NAME`
 * **default:** `""`
 
@@ -211,3 +232,5 @@ Will skill all helm executions. This superseeds all other configuration
 -------------------
 ### HELM_UNINSTALL_CHARTS
 Comma separated string. If any of the charts to be deployed match one of the chart names listed here, it will be uninstalled with `helm uninstall $HELM_RELEASE_NAME` instead of deployed/upgraded.
+
+
