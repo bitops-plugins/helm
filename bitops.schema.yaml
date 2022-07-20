@@ -54,7 +54,7 @@ helm:
         uninstall:
           type: string
           export_env: HELM_UNINSTALL
-        aws:
+        k8s:
           type: object
           properties:
             kubeconfigpath:

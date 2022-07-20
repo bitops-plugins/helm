@@ -51,7 +51,7 @@ helm:
     skip-deploy: false
     release-name: bitops-release
     uninstall-charts: "chart1,chart2"
-    aws:
+    k8s:
       fetch:
         kubeconfig: true
         cluster-name: my-cluster
@@ -167,31 +167,31 @@ If true, this chart will be uninstalled instead of deployed/upgraded. If the env
 
 -------------------
 ### kubeconfig
-* **BitOps Property:** `aws`
+* **BitOps Property:** `k8s`
 
-configure cluster access. Has the following child-properties. Should provide one of `aws.kubeconfigpath` or `aws.fetch.kubeconfig & aws.fetch.cluster-name`. Defaults to ``aws.fetch.kubeconfig & aws.fetch.cluster-name``
+configure cluster access. Has the following child-properties. Should provide one of `k8s.kubeconfigpath` or `k8s.fetch.kubeconfig & k8s.fetch.cluster-name`. Defaults to ``k8s.fetch.kubeconfig & k8s.fetch.cluster-name``
 
 ### path
-* **BitOps Property:** `aws.kubeconfigpath`
+* **BitOps Property:** `k8s.kubeconfigpath`
 * **Environment Variable:** `KUBE_CONFIG_PATH`
 * **default:** `""`
 
 relative file path to .kubeconfig file
 
 #### fetch
-* **BitOps Property:** `aws.fetch`
+* **BitOps Property:** `k8s.fetch`
 
-aws.fetch kubeconfig using cloud provider auth
+k8s.fetch kubeconfig using cloud provider auth
 
 ##### enabled
-* **BitOps Property:** `aws.fetch.kubeconfig`
+* **BitOps Property:** `k8s.fetch.kubeconfig`
 * **Environment Variable:** `FETCH_KUBECONFIG`
 * **default:** `true`
 
-enables/disables aws.fetch
+enables/disables k8s.fetch
 
 ##### cluster-name
-* **BitOps Property:** `aws.fetch.cluster-name`
+* **BitOps Property:** `k8s.fetch.cluster-name`
 * **Environment Variable:** `CLUSTER_NAME`
 * **default:** `""`
 
