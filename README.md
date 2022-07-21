@@ -86,9 +86,9 @@ bitops-core:latest
 * **BitOps Property:** `namespace`
 * **Environment Variable:** `NAMESPACE`
 * **default:** `""`
-* **required:** yes
+* **required:** `"true"`
 
-namespace scope for this request
+namespace scope for this request. This is a required parameter.
 
 -------------------
 ### timeout
