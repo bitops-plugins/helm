@@ -93,11 +93,11 @@ echo "validate_env for NAMESPACE: $NAMESPACE completed successfully"
 echo "Identify the default root folder for $HELM_CHART helm chart"
 if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
     echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
-    export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$BITOPS_DEFAULT_ROOT_DIR"
+    export DEFAULT_HELM_ROOT="$BITOPS_TEMPDIR/$BITOPS_DEFAULT_ROOT_DIR"
     export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
 else
     echo "Use 'default-root-dir' of bitops.config.yaml helm chart config value for default root directory..."
-    export DEFAULT_HELM_ROOT="$BITOPS_ENVROOT/$DEFAULT_ROOT_DIR"
+    export DEFAULT_HELM_ROOT="$BITOPS_TEMPDIR/$DEFAULT_ROOT_DIR"
     export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
 fi
 echo "default root folder for $HELM_CHART helm chart found.."
