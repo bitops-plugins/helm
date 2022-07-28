@@ -2,15 +2,12 @@
 
 ## Table of contents
 
-[Introduction](#Introduction)
+1. [Introduction](#Introduction)
+2. [Installation](https://github.com/bitops-plugins/helm/blob/main/INSTALL.md)
+3. [Deployment](#Deployment)
+4. [HELM External Charts Deployment](https://github.com/bitops-plugins/helm/blob/main/install-external-charts.md)
 
-[Installation](https://github.com/bitops-plugins/helm/blob/main/INSTALL.md)
-
-[Deployment](#Deployment)
-
-[HELM External Charts Deployment](https://github.com/bitops-plugins/helm/blob/main/install-external-charts.md)
-
-
+---
 
 ## Introduction
 This plugin will let BitOps to automatically deploy ``helm`` templates to kubernates running on any provider. 
