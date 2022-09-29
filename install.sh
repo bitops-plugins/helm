@@ -33,3 +33,6 @@ function install_helm_s3() {
 
 install_helm
 install_helm_s3
+
+# Verify Helm installation
+helm version
