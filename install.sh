@@ -11,7 +11,9 @@ echo ""
 
 mkdir -p /opt/download
 cd /opt/download
-HELM_VERSION=3.9.0
+
+LATEST_RELEASE=$(curl https://api.github.com/repos/helm/helm/releases/latest | jq --raw-output '.tag_name' | cut -c 2-)
+HELM_VERSION=${LATEST_RELEASE}
 
 function install_helm() {
     if [[ "$HELM_VERSION" == '3.2.0' ]]; then
@@ -32,3 +34,5 @@ function install_helm_s3() {
 install_helm
 install_helm_s3
 
+# Verify Helm installation
+helm version
