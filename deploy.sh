@@ -18,9 +18,13 @@ echo "calling helm/deploy ..."
 # if subdirectory is not provided, iterate subdirectories
 if [ -z "$ENVIRONMENT_HELM_SUBDIRECTORY" ]; then
   echo "ENVIRONMENT_HELM_SUBDIRECTORY not provided, iterate all helm charts in $ENV_DIR/helm"
+
   for helm_chart_dir in $HELM_ROOT_OPERATIONS/*/; do
     helm_chart_dir=${helm_chart_dir%*/}     # remove the trailing "/"
     helm_chart_dir=${helm_chart_dir##*/}    # get everything after the final "/"
+    if [ "$helm_chart_dir" == "$BITOPS_DEFAULT_ROOT_DIR" ] || [ "$helm_chart_dir" == "$DEFAULT_ROOT_DIR" ]; then
+      continue
+    fi
     echo "Deploy $helm_chart_dir for $ENVIRONMENT"
     
     $HELM_ROOT_SCRIPTS/scripts/helm_handle_chart.sh $helm_chart_dir
