@@ -40,7 +40,7 @@ fi
 printf "COPY_DEFAULT_SCHEMA set..."
 if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/schema" ]; then
     printf "default schema/ exists.\n"
-    cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/templates/." "$HELM_CHART_DIRECTORY/templates/"
+    cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/schema/." "$HELM_CHART_DIRECTORY/schema/"
 
 else
     printf "${ERROR}  schema/ does not exist.${NC}\n"
