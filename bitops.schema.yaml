@@ -41,6 +41,7 @@ helm:
         release-name:
           type: string
           export_env: HELM_RELEASE_NAME
+          required: true
         default-root-dir:
           type: string
           export_env: DEFAULT_ROOT_DIR
@@ -70,6 +71,7 @@ helm:
                 cluster-name:
                   type: string
                   export_env: CLUSTER_NAME
+                  required: true
         
     plugins:
       type: object
