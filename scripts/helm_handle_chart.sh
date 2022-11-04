@@ -79,7 +79,10 @@ if [[ -z "$KUBECONFIG_BASE64" ]]; then
 else
     echo "Running kubectl plugin"
     bash $PLUGINS_ROOT_DIR/kubectl/scripts/kubeconfig_base64_decode.sh
-    cat $KUBE_CONFIG_FILE
+    # cat $BITOPS_KUBE_CONFIG_FILE
+    export k="kubectl --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
+    export h="helm --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
+
 fi
 
 
@@ -89,6 +92,14 @@ if [ -n "$HELM_RELEASE_NAME" ]; then
 fi
 bash $SCRIPTS_DIR/validate_env.sh
 echo "validate_env for NAMESPACE: $NAMESPACE completed successfully"
+
+echo "Identify the default sub directory for $HELM_CHART helm chart"
+if [ -z "$DEFAULT_SUB_DIR" ]; then
+    echo "DEFAULT_SUB_DIR is not set. Setting to $HELM_CHART"
+    DEFAULT_SUB_DIR="helm/$HELM_CHART"
+else
+    echo "DEFAULT_SUB_DIR is set: $DEFAULT_SUB_DIR"
+fi
 
 # # Identify the default folder for helm
 echo "Identify the default root folder for $HELM_CHART helm chart"
