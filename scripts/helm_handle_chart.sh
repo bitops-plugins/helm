@@ -11,6 +11,7 @@ export HELM_CHART_DIRECTORY="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$HELM_CHART"
 
 echo "Parsing helm bitops.config.yaml..."
 export BITOPS_CONFIG_COMMAND="$(ENV_FILE="$BITOPS_SCHEMA_ENV_FILE" DEBUG="" bash $SCRIPTS_DIR/bitops-config/convert-schema.sh $BITOPS_CONFIG_SCHEMA $HELM_BITOPS_CONFIG)"
+
 echo "BITOPS_CONFIG_COMMAND: $BITOPS_CONFIG_COMMAND"
 source "$BITOPS_SCHEMA_ENV_FILE"
 
@@ -55,7 +56,7 @@ if [[ -z "$KUBECONFIG_BASE64" ]]; then
                 export KUBECONFIG=$KUBECONFIG:$BITOPS_KUBE_CONFIG_FILE
                 export k="kubectl --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
                 export h="helm --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
-            fi   
+            fi
         else
             if [[ "${FETCH_KUBECONFIG}" == "False" ]]; then
                 >&2 echo "{\"error\":\"'kubeconfig' cannot be false when 'cluster-name' variable is defined in bitops.config.yaml.Exiting...\"}"
@@ -104,15 +105,14 @@ fi
 echo "Identify the default root folder for $HELM_CHART helm chart"
 if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
     echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
-    export DEFAULT_HELM_ROOT="$BITOPS_TEMPDIR/$BITOPS_DEFAULT_ROOT_DIR"
-    export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
+    export DEFAULT_HELM_ROOT="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$BITOPS_DEFAULT_ROOT_DIR"
 else
     echo "Use 'default-root-dir' of bitops.config.yaml helm chart config value for default root directory..."
-    export DEFAULT_HELM_ROOT="$BITOPS_TEMPDIR/$DEFAULT_ROOT_DIR"
-    export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
+    export DEFAULT_HELM_ROOT="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$DEFAULT_ROOT_DIR"
 fi
 echo "default root folder for $HELM_CHART helm chart found.."
 
+export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
 
 ### COPY DEFAULTS
 echo "Copying defaults...."

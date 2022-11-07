@@ -8,66 +8,40 @@ HELM_CHART="$1"
 # DEFAULT_HELM_CHART_DIRECTORY
 # HELM_BITOPS_CONFIG
 
-# TODO: handle if we should merge vs overwrite
-
-# Copy default CRDs.
-
-if [ "1" == "1" ]; then
-# if [ "$(shyaml get-value copy_defaults.crds < "$HELM_BITOPS_CONFIG")" == 'True' ]; then
-    echo "COPY_DEFAULT_CRDS set"
-    if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/crds" ]; then
-        echo "default crds/ exist"
-        cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/crds/." "$HELM_CHART_DIRECTORY/crds/"
-    else
-        printf "${ERROR} crds/ does not exist...${NC}"
-    fi
+echo "COPY_DEFAULT_CRDS set..."
+if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/crds" ]; then
+    echo "default crds/ exists."
+    cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/crds/." "$HELM_CHART_DIRECTORY/crds/"
+    ls $HELM_CHART_DIRECTORY/crds/
 else
     echo "COPY_DEFAULT_CRDS not set"
 fi
 
-# Copy default Charts.
-
-if [ "1" == "1" ]; then
-# if [ "$(shyaml get-value copy_defaults.charts < "$HELM_BITOPS_CONFIG")" == 'True' ]; then
-    echo "COPY_DEFAULT_CHARTS set"
-    if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/charts" ]; then
-        echo "default charts/ exist"
-        cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/charts/." "$HELM_CHART_DIRECTORY/charts/"
-    else
-        printf "${ERROR} charts/ does not exist...${NC}"
-    fi
+echo "COPY_DEFAULT_CHARTS set..."
+if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/charts" ]; then
+    echo "default charts/ exists.\n"
+    cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/charts/." "$HELM_CHART_DIRECTORY/charts/"
+    ls $HELM_CHART_DIRECTORY/charts/
 else
-    echo "COPY_DEFAULT_CHARTS not set"
-    printf "${SUCCESS} Helm deployment was successful...${NC}"
+    echo "${ERROR} charts/ does not exist.${NC}\n"
 fi
 
-# Copy default Templates.
 
-if [ "1" == "1" ]; then
-# if [ "$(shyaml get-value copy_defaults.templates < "$HELM_BITOPS_CONFIG")" == 'True' ]; then
-    echo "COPY_DEFAULT_TEMPLATES set"
-    if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/templates" ]; then
-        echo "default templates/ exist"
-        cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/templates/." "$HELM_CHART_DIRECTORY/templates/"
-    else
-        printf "${ERROR}  templates/ does not exist...${NC}"
-    fi
+echo "COPY_DEFAULT_TEMPLATES set..."
+if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/templates" ]; then
+    echo "default templates/ exists.\n"
+    cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/templates/." "$HELM_CHART_DIRECTORY/templates/"
+    ls $HELM_CHART_DIRECTORY/templates/
 else
-    echo "COPY_DEFAULT_TEMPLATES not set"
+    echo "${ERROR} templates/ does not exist.${NC}\n"
 fi
 
-# TODO: what's the schema?
-# Copy default Schema.
 
-if [ "1" == "1" ]; then
-# if [ "$(shyaml get-value copy_defaults.schema < "$HELM_BITOPS_CONFIG")" == 'True' ]; then
-    echo "COPY_DEFAULT_SCHEMA set"
-    if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/schema" ]; then
-        echo "default schema/ exists"
-        cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/templates/." "$HELM_CHART_DIRECTORY/templates/"
-    else
-        printf "${ERROR}  schema/ does not exist...${NC}"
-    fi
+echo "COPY_DEFAULT_SCHEMA set..."
+if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/schema" ]; then
+    echo "default schema/ exists.\n"
+    cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/schema/." "$HELM_CHART_DIRECTORY/schema/"
+    ls $HELM_CHART_DIRECTORY/schema/
 else
-    echo "COPY_DEFAULT_SCHEMA not set"
+    echo "${ERROR}  schema/ does not exist.${NC}\n"
 fi
