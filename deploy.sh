@@ -27,6 +27,8 @@ if [ -z "$ENVIRONMENT_HELM_SUBDIRECTORY" ]; then
   for helm_chart_dir in $HELM_ROOT_OPERATIONS/*/; do
     helm_chart_dir=${helm_chart_dir%*/}     # remove the trailing "/"
     helm_chart_dir=${helm_chart_dir##*/}    # get everything after the final "/"
+    # The following if conditional checks whether the directory being passed over is the same as the _default folder
+    # If it is, it skips to the next loop item
     if [ "$helm_chart_dir" == "$BITOPS_DEFAULT_ROOT_DIR" ] || [ "$helm_chart_dir" == "$DEFAULT_ROOT_DIR" ]; then
       continue
     fi

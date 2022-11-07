@@ -8,40 +8,40 @@ HELM_CHART="$1"
 # DEFAULT_HELM_CHART_DIRECTORY
 # HELM_BITOPS_CONFIG
 
-printf "COPY_DEFAULT_CRDS set..."
+echo "COPY_DEFAULT_CRDS set..."
 if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/crds" ]; then
-    printf "default crds/ exists.\n"
+    echo "default crds/ exists."
     cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/crds/." "$HELM_CHART_DIRECTORY/crds/"
     ls $HELM_CHART_DIRECTORY/crds/
 else
     echo "COPY_DEFAULT_CRDS not set"
 fi
 
-printf "COPY_DEFAULT_CHARTS set..."
+echo "COPY_DEFAULT_CHARTS set..."
 if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/charts" ]; then
-    printf "default charts/ exists.\n"
+    echo "default charts/ exists.\n"
     cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/charts/." "$HELM_CHART_DIRECTORY/charts/"
     ls $HELM_CHART_DIRECTORY/charts/
 else
-    printf "${ERROR} charts/ does not exist.${NC}\n"
+    echo "${ERROR} charts/ does not exist.${NC}\n"
 fi
 
 
-printf "COPY_DEFAULT_TEMPLATES set..."
+echo "COPY_DEFAULT_TEMPLATES set..."
 if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/templates" ]; then
-    printf "default templates/ exists.\n"
+    echo "default templates/ exists.\n"
     cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/templates/." "$HELM_CHART_DIRECTORY/templates/"
     ls $HELM_CHART_DIRECTORY/templates/
 else
-    printf "${ERROR} templates/ does not exist.${NC}\n"
+    echo "${ERROR} templates/ does not exist.${NC}\n"
 fi
 
 
-printf "COPY_DEFAULT_SCHEMA set..."
+echo "COPY_DEFAULT_SCHEMA set..."
 if [ -d "$DEFAULT_HELM_CHART_DIRECTORY/schema" ]; then
-    printf "default schema/ exists.\n"
+    echo "default schema/ exists.\n"
     cp -rf "$DEFAULT_HELM_CHART_DIRECTORY/schema/." "$HELM_CHART_DIRECTORY/schema/"
     ls $HELM_CHART_DIRECTORY/schema/
 else
-    printf "${ERROR}  schema/ does not exist.${NC}\n"
+    echo "${ERROR}  schema/ does not exist.${NC}\n"
 fi
