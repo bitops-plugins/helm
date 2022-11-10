@@ -129,7 +129,6 @@ simulate an install
 * **BitOps Property:** `skip-deploy`
 * **Environment Variable:** `HELM_SKIP_DEPLOY`
 * **default:** `""`
-* **Required:** `false`
 * **Description:** If set to true, regardless of the stack-action, deployment actions will be skipped.
 
 -------------------
