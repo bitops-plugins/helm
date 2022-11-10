@@ -209,7 +209,7 @@ AWS s3 bucket name
 Although not captured in `bitops.config.yml`, the following environment variables can be set to further customize behaviour
 
 -------------------
-### SKIP_DEPLOY_HELM
+### HELM_SKIP_DEPLOY
 Will skill all helm executions. This superseeds all other configuration
 
 -------------------

@@ -16,7 +16,8 @@ echo "BITOPS_CONFIG_COMMAND: $BITOPS_CONFIG_COMMAND"
 source "$BITOPS_SCHEMA_ENV_FILE"
 
 # Check for helm skip deploy condition
-if [ "$HELM_SKIP_DEPLOY" == "True" ]; then
+SANITIZED_HELM_SKIP_DEPLOY=$(echo "$HELM_SKIP_DEPLOY" | tr '[:upper:]' '[:lower:]')
+if [ "$SANITIZED_HELM_SKIP_DEPLOY" == "true" ]; then
     echo "helm.options.skip-deploy (HELM_SKIP_DEPLOY) set.  Skipping deployment for $ENVIRONMENT/helm/$HELM_CHART"
     exit 0
 fi
