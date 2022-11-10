@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-if [ -n "$SKIP_DEPLOY_HELM" ]; then
-  echo "SKIP_DEPLOY_HELM is set.  Skipping."
-  exit 0
-fi
-
 export PLUGINS_ROOT_DIR="${BITOPS_PLUGINS_DIR%/*}"
 export HELM_ROOT_SCRIPTS="$BITOPS_PLUGIN_DIR"
 export HELM_ROOT_OPERATIONS="$BITOPS_OPSREPO_ENVIRONMENT_DIR"

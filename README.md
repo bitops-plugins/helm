@@ -127,10 +127,9 @@ simulate an install
 -------------------
 ### skip-deploy
 * **BitOps Property:** `skip-deploy`
-* **Environment Variable:** `SKIP_DEPLOY`
+* **Environment Variable:** `HELM_SKIP_DEPLOY`
 * **default:** `""`
-
-will skip helm execution
+* **Description:** If set to true, regardless of the stack-action, deployment actions will be skipped.
 
 -------------------
 ### release-name
@@ -209,7 +208,7 @@ AWS s3 bucket name
 Although not captured in `bitops.config.yml`, the following environment variables can be set to further customize behaviour
 
 -------------------
-### SKIP_DEPLOY_HELM
+### HELM_SKIP_DEPLOY
 Will skill all helm executions. This superseeds all other configuration
 
 -------------------
