@@ -42,9 +42,9 @@ bash $SCRIPTS_DIR/before-deploy.sh "$HELM_CHART_DIRECTORY"
 
 # set kube config
 if [[ -z "$KUBECONFIG_BASE64" ]]; then
-    if [[ "${KUBE_CONFIG_PATH}" == "" ]] || [[ "${KUBE_CONFIG_PATH}" == "''" ]] || [[ "${KUBE_CONFIG_PATH}" == "None" ]]; then
-        if [[ "${FETCH_KUBECONFIG}" == "True" ]]; then
-            if [[ "${CLUSTER_NAME}" == "" ]] || [[ "${CLUSTER_NAME}" == "''" ]] || [[ "${CLUSTER_NAME}" == "None" ]]; then
+    if [[ "${KUBE_CONFIG_PATH}" == "" ]] || [[ "${KUBE_CONFIG_PATH}" == "''" ]] || [[ "${KUBE_CONFIG_PATH}" == "None" ]] || [[ "${KUBE_CONFIG_PATH}" == "none" ]]; then
+        if [[ "${FETCH_KUBECONFIG}" == "true" ]]; then
+            if [[ "${CLUSTER_NAME}" == "" ]] || [[ "${CLUSTER_NAME}" == "''" ]] || [[ "${CLUSTER_NAME}" == "None" ]] || [[ "${CLUSTER_NAME}" == "none" ]]; then
                 >&2 echo "{\"error\":\"CLUSTER_NAME config is required.Exiting...\"}"
                 exit 1
             else
@@ -58,7 +58,7 @@ if [[ -z "$KUBECONFIG_BASE64" ]]; then
                 export h="helm --kubeconfig=$BITOPS_KUBE_CONFIG_FILE"
             fi
         else
-            if [[ "${FETCH_KUBECONFIG}" == "False" ]]; then
+            if [[ "${FETCH_KUBECONFIG}" == "false" ]]; then
                 >&2 echo "{\"error\":\"'kubeconfig' cannot be false when 'cluster-name' variable is defined in bitops.config.yaml.Exiting...\"}"
                 exit 1
             fi
@@ -103,7 +103,7 @@ fi
 
 # # Identify the default folder for helm
 echo "Identify the default root folder for $HELM_CHART helm chart"
-if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
+if [[ "${DEFAULT_DIR_FLAG}" == "true" ]]; then
     echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
     export DEFAULT_HELM_ROOT="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$BITOPS_DEFAULT_ROOT_DIR"
 else

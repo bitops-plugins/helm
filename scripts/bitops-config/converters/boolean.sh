@@ -14,7 +14,7 @@ if [ -n "$DEEP_DEBUG" ]; then
 fi
 
 OUTPUT=""
-if [ -z "$value" ] || [ "$value" == "" ] || [ "$value" == "False" ]; then
+if [ -z "$value" ] || [ "$value" == "" ] || [ "$value" == "False" ] || [ "$value" == "false" ]; then
     OUTPUT=""
 elif [ "$value" == "True" ]; then
     OUTPUT="${cli_flag}"
