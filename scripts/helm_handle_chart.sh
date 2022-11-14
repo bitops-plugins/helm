@@ -99,6 +99,11 @@ else
     echo "DEFAULT_SUB_DIR is set: $DEFAULT_SUB_DIR"
 fi
 
+if [ -z $BITOPS_PLUGIN_NAME ]; then
+    # BITOPS_PLUGIN_NAME is empty, assuming plugin name based on basename
+    BITOPS_PLUGIN_NAME=$(basename ${BITOPS_PLUGIN_DIR})
+fi
+
 # # Identify the default folder for helm
 echo "Identify the default root folder for $HELM_CHART helm chart"
 if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
