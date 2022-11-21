@@ -3,8 +3,8 @@ set -e
 
 export KUBECONFIG_BASE64="${BITOPS_KUBECONFIG_BASE64}"
 export HELM_CHART="$1"
-export SCRIPTS_DIR="$BITOPS_PLUGIN_DIR/scripts"
-export BITOPS_CONFIG_SCHEMA="$BITOPS_PLUGIN_DIR/bitops.schema.yaml"
+export SCRIPTS_DIR="$BITOPS_INSTALLED_PLUGIN_DIR/scripts"
+export BITOPS_CONFIG_SCHEMA="$BITOPS_INSTALLED_PLUGIN_DIR/bitops.schema.yaml"
 export BITOPS_SCHEMA_ENV_FILE="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$HELM_CHART/ENV_FILE"
 export HELM_BITOPS_CONFIG="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$HELM_CHART/bitops.config.yaml"
 export HELM_CHART_DIRECTORY="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$HELM_CHART"
@@ -104,7 +104,6 @@ if [ -z $BITOPS_PLUGIN_NAME ]; then
     BITOPS_PLUGIN_NAME=$(basename ${BITOPS_PLUGIN_DIR})
 fi
 
-# # Identify the default folder for helm
 echo "Identify the default root folder for $HELM_CHART helm chart"
 if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
     echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
