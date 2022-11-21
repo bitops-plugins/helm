@@ -21,8 +21,6 @@ if [ "$HELM_SKIP_DEPLOY" == "true" ]; then
     exit 0
 fi
 
-ls -ltr $PLUGINS_ROOT_DIR
-
 # Check for dependent aws plugin
 if [ ! -d $PLUGINS_ROOT_DIR/aws ]; then
     echo "aws plugin is missing..."
@@ -101,18 +99,22 @@ else
     echo "DEFAULT_SUB_DIR is set: $DEFAULT_SUB_DIR"
 fi
 
-# # Identify the default folder for BITOPS_INSTALLED_PLUGIN_DIR
+if [ -z $BITOPS_PLUGIN_NAME ]; then
+    # BITOPS_PLUGIN_NAME is empty, assuming plugin name based on basename
+    BITOPS_PLUGIN_NAME=$(basename ${BITOPS_PLUGIN_DIR})
+fi
+
 echo "Identify the default root folder for $HELM_CHART helm chart"
 if [[ "${DEFAULT_DIR_FLAG}" == "True" ]]; then
     echo "Use 'opsrepo_root_default_dir' of bitops.config.yaml build config value for default root directory..."
-    export DEFAULT_HELM_ROOT="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$BITOPS_DEFAULT_ROOT_DIR"
+    export DEFAULT_HELM_ROOT="$BITOPS_TEMPDIR/$BITOPS_DEFAULT_ROOT_DIR/$BITOPS_PLUGIN_NAME"
 else
     echo "Use 'default-root-dir' of bitops.config.yaml helm chart config value for default root directory..."
     export DEFAULT_HELM_ROOT="$BITOPS_OPSREPO_ENVIRONMENT_DIR/$DEFAULT_ROOT_DIR"
 fi
-echo "default root folder for $HELM_CHART helm chart found.."
 
-export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$DEFAULT_SUB_DIR"
+export DEFAULT_HELM_CHART_DIRECTORY="$DEFAULT_HELM_ROOT/$HELM_CHART"
+echo "Using default folder [$DEFAULT_HELM_CHART_DIRECTORY]"
 
 ### COPY DEFAULTS
 echo "Copying defaults...."

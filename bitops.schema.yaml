@@ -45,6 +45,7 @@ helm:
         default-root-dir:
           type: string
           export_env: DEFAULT_ROOT_DIR
+          default: _default
         default-dir-flag:
           type: boolean
           default: true
